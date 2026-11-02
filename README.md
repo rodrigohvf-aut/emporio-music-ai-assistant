@@ -25,6 +25,68 @@ PDF policy -> text extraction -> lightweight policy retrieval -> assistant
 Streamlit chat -> assistant -> Portuguese customer response
 ```
 
+## Repository organization
+
+The repository is separated by responsibility so that data ingestion, application logic, retrieval, testing, examples, and documentation can evolve independently.
+
+```text
+emporio-music-ai-assistant/
+├── app/
+│   ├── agent.py          # Assistant orchestration and response logic
+│   ├── database.py       # SQLite schema, ingestion, and queries
+│   ├── tools.py          # Deterministic business tools
+│   ├── rag.py            # Store policy extraction and retrieval
+│   └── prompts.py        # English system instructions
+├── data/
+│   ├── products.csv
+│   ├── categories.csv
+│   ├── promotions.csv
+│   ├── customers.csv
+│   ├── orders.csv
+│   ├── order_items.csv
+│   └── store_policies.pdf
+├── examples/
+│   └── sample_conversations.md
+├── tests/
+│   └── test_tools.py
+├── scripts/
+│   └── ingest_data.py
+├── outputs/
+│   └── emporio-music-ai-assistant-architecture.png
+├── streamlit_app.py
+├── requirements.txt
+├── .env.example
+├── .gitignore
+└── README.md
+```
+
+```mermaid
+flowchart TB
+    ROOT[Emporio Music AI Assistant]
+
+    ROOT --> APP[app/]
+    ROOT --> DATA[data/]
+    ROOT --> TESTS[tests/]
+    ROOT --> EXAMPLES[examples/]
+    ROOT --> SCRIPTS[scripts/]
+    ROOT --> UI[streamlit_app.py]
+    ROOT --> DOCS[README.md and configuration]
+
+    APP --> AGENT[agent.py]
+    APP --> DATABASE[database.py]
+    APP --> TOOLS[tools.py]
+    APP --> RAG[rag.py]
+    APP --> PROMPTS[prompts.py]
+
+    DATA --> CSV[Operational CSV files]
+    DATA --> PDF[Store policy PDF]
+
+    TESTS --> TESTFILES[Automated behavior tests]
+    EXAMPLES --> CONVERSATIONS[Customer interaction examples]
+    SCRIPTS --> INGEST[Data ingestion script]
+    UI --> CHAT[Streamlit chat interface]
+```
+
 Operational data uses SQLite and SQL-backed tools for products, prices, stock, promotions, and orders. Store policies use a small local retrieval layer. OpenAI is optional: without `OPENAI_API_KEY`, the deterministic fallback remains usable for demos and tests.
 
 ## Technical decisions
