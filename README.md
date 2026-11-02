@@ -6,6 +6,19 @@ An English-source-code MVP for a Brazilian music store assistant. The customer-f
 
 ![Emporio Music AI Assistant architecture](outputs/emporio-music-ai-assistant-architecture.png)
 
+```mermaid
+flowchart LR
+    A[CSV files<br/>Products, orders, customers,<br/>categories, promotions] --> B[SQLite database]
+    C[Store policy PDF] --> D[Policy retrieval / RAG]
+
+    B --> E[Deterministic tools]
+    D --> F[AI assistant]
+    E --> F
+
+    F --> G[Streamlit chat interface]
+    G --> H[Customer response<br/>Brazilian Portuguese]
+```
+
 ```text
 CSV files -> validated SQLite tables -> deterministic tools -> assistant
 PDF policy -> text extraction -> lightweight policy retrieval -> assistant
