@@ -6,19 +6,6 @@ An English-source-code MVP for a Brazilian music store assistant. The customer-f
 
 ![Emporio Music AI Assistant architecture](outputs/emporio-music-ai-assistant-architecture.png)
 
-```mermaid
-flowchart LR
-    A[CSV files<br/>Products, orders, customers,<br/>categories, promotions] --> B[SQLite database]
-    C[Store policy PDF] --> D[Policy retrieval / RAG]
-
-    B --> E[Deterministic tools]
-    D --> F[AI assistant]
-    E --> F
-
-    F --> G[Streamlit chat interface]
-    G --> H[Customer response<br/>Brazilian Portuguese]
-```
-
 ```text
 CSV files -> validated SQLite tables -> deterministic tools -> assistant
 PDF policy -> text extraction -> lightweight policy retrieval -> assistant
@@ -62,34 +49,6 @@ emporio-music-ai-assistant/
 ├── .gitignore
 └── README.md
 ```
-
-```mermaid
-flowchart TB
-    ROOT[Emporio Music AI Assistant]
-
-    ROOT --> APP[app/]
-    ROOT --> DATA[data/]
-    ROOT --> TESTS[tests/]
-    ROOT --> EXAMPLES[examples/]
-    ROOT --> SCRIPTS[scripts/]
-    ROOT --> UI[streamlit_app.py]
-    ROOT --> DOCS[README.md and configuration]
-
-    APP --> AGENT[agent.py]
-    APP --> DATABASE[database.py]
-    APP --> TOOLS[tools.py]
-    APP --> RAG[rag.py]
-    APP --> PROMPTS[prompts.py]
-
-    DATA --> CSV[Operational CSV files]
-    DATA --> PDF[Store policy PDF]
-
-    TESTS --> TESTFILES[Automated behavior tests]
-    EXAMPLES --> CONVERSATIONS[Customer interaction examples]
-    SCRIPTS --> INGEST[Data ingestion script]
-    UI --> CHAT[Streamlit chat interface]
-```
-
 Operational data uses SQLite and SQL-backed tools for products, prices, stock, promotions, and orders. Store policies use a small local retrieval layer. OpenAI is optional: without `OPENAI_API_KEY`, the deterministic fallback remains usable for demos and tests.
 
 ## Technical decisions
