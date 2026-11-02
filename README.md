@@ -13,7 +13,7 @@ Streamlit chat -> assistant -> Portuguese customer response
 ```
 ## Demo video
 
-[Watch the Emporio Music AI Assistant demo](media/emporio-music-ai-assistant-demo.webm)
+[Watch the Streamlit demo](https://raw.githubusercontent.com/rodrigohvf-aut/emporio-music-ai-assistant/main/media/emporio-music-ai-assistant-demo.webm)
 
 ## Repository organization
 
