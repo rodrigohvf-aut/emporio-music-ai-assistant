@@ -4,6 +4,12 @@ An English-source-code MVP for a Brazilian music store assistant. The customer-f
 
 ## Architecture
 
+![Emporio Music AI Assistant architecture](outputs/emporio-music-ai-assistant-architecture.png)
+
+The visual overview below summarizes the complete MVP flow from operational files and store policies to the customer-facing Streamlit assistant.
+
+![Emporio Music AI Assistant overview](outputs/emporio-music-ai-assistant-overview.png)
+
 ```text
 CSV files -> validated SQLite tables -> deterministic tools -> assistant
 PDF policy -> text extraction -> lightweight policy retrieval -> assistant
