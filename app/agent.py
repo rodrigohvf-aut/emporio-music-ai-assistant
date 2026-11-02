@@ -35,9 +35,18 @@ class EmporioAssistant:
             if not order:
                 return "Não encontrei esse pedido. Confira o número informado ou entre em contato com a loja."
             record = order[0]
+            status_labels = {
+                "pending": "pendente",
+                "processing": "em processamento",
+                "shipped": "enviado",
+                "delivered": "entregue",
+                "cancelled": "cancelado",
+                "canceled": "cancelado",
+            }
+            status = status_labels.get(str(record["status"]).lower(), str(record["status"]))
             tracking = f" Código de rastreio: {record['tracking_code']}." if record.get("tracking_code") else ""
             delivery = f" Previsão de entrega: {record['estimated_delivery']}." if record.get("estimated_delivery") else ""
-            return f"O pedido {record['order_id']} está com status '{record['status']}'.{tracking}{delivery}"
+            return f"O pedido {record['order_id']} está com status '{status}'.{tracking}{delivery}"
         if any(term in lower for term in ("clima", "tempo hoje", "notícia", "noticias", "filme", "música que não", "programar", "futebol")):
             return "Posso ajudar apenas com produtos, preços, estoque, promoções, pedidos e políticas da Empório da Música."
         if any(word in lower for word in ("devolver", "devolução", "troca", "return")):

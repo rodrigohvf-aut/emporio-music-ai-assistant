@@ -15,7 +15,7 @@ def test_order_status_lookup(tmp_path):
     ingest_csv_directory(project_root / "data", db_path)
     assistant = EmporioAssistant(str(db_path), str(project_root / "data" / "store_policies.pdf"))
     response = assistant.answer_without_llm("Qual o status do pedido 1?")
-    assert "delivered" in response
+    assert "entregue" in response
     assert "BRAB1234567BR" in response
 
 def test_out_of_scope_question_is_declined(tmp_path):
