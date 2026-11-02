@@ -27,6 +27,36 @@ Streamlit chat -> assistant -> Portuguese customer response
 
 Operational data uses SQLite and SQL-backed tools for products, prices, stock, promotions, and orders. Store policies use a small local retrieval layer. OpenAI is optional: without `OPENAI_API_KEY`, the deterministic fallback remains usable for demos and tests.
 
+## Technical decisions
+
+### Agent framework and approach
+
+The MVP uses a hybrid assistant rather than a fully autonomous SQL agent. Deterministic Python tools handle operational questions such as product lookup, price, stock, promotions, PIX pricing, and order status. Policy questions use retrieval over the store policy PDF. An optional OpenAI response layer can provide natural-language orchestration when `OPENAI_API_KEY` is configured.
+
+This approach was selected because prices, inventory, promotions, and order status require predictable database queries. Relying on a language model to generate unrestricted SQL would increase the risk of inaccurate or unauthorized answers. The design keeps business rules in testable Python code and leaves language generation to the model only when it adds value.
+
+### Model and provider
+
+The default optional model is `gpt-4o-mini` through the OpenAI API because it is fast and cost-effective for customer-support conversations. The provider is configurable through `OPENAI_MODEL`. The application also includes a deterministic fallback, so the core demonstration does not depend on an API key, network availability, or a paid model.
+
+### Interaction interface
+
+The project uses Streamlit because it provides a fast, visible chat interface for evaluating the agent without adding backend complexity. The same `EmporioAssistant` class can later be exposed through FastAPI, a messaging webhook, or a CLI without changing the data and policy layers.
+
+### Conversation history and persistence
+
+Conversation history is kept in Streamlit session state during the active browser session. Persistent conversation storage was intentionally left out of the MVP because the challenge focuses on correct customer responses and data grounding. A production version should add authenticated customer sessions, privacy controls, retention rules, and a database table for conversation events.
+
+### Data treatment and consistency
+
+The ingestion script reads the six CSV files using UTF-8 handling, recreates the corresponding SQLite tables, and preserves the source columns needed by the assistant. The application checks that operational tables contain rows and automatically ingests the bundled CSVs when the local database is missing or empty. SQLite foreign-key relationships are represented through shared identifiers, while deterministic queries join products, categories, customers, orders, and order items as needed.
+
+For a production pipeline, the next step would be staged imports, schema validation, duplicate detection, row-level reconciliation, versioned source files, and transactional upserts instead of full table replacement.
+
+### Why a hybrid design
+
+Structured operational data and unstructured policy content have different accuracy requirements. SQL-backed tools are used for current business data, while policy retrieval is used for document content. This separation makes the system easier to test, explain, and migrate from local SQLite to a managed relational database later.
+
 ## Quick start
 
 ```bash
