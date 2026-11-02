@@ -45,6 +45,8 @@ Copy `.env.example` to `.env` and provide `OPENAI_API_KEY` to enable the LLM res
 - `Quanto custa o Yamaha C40?`
 - `Posso devolver um produto que comprei?`
 - `Qual é o desconto no PIX?`
+- `Qual é o status do pedido 1?`
+- `Qual é a previsão do tempo hoje?` (out-of-scope handling)
 
 ## MVP limitations
 

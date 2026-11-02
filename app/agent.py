@@ -27,6 +27,19 @@ class EmporioAssistant:
 
     def answer_without_llm(self, message: str) -> str:
         lower = message.lower()
+        if any(term in lower for term in ("pedido", "ordem de compra", "rastreamento", "tracking")):
+            order_match = re.search(r"(?:pedido|ordem)\s*(?:n[ºo.]?\s*)?(\d+)", lower)
+            if not order_match:
+                return "Posso consultar seu pedido. Por favor, informe o número do pedido."
+            order = get_order(self.db_path, int(order_match.group(1)))
+            if not order:
+                return "Não encontrei esse pedido. Confira o número informado ou entre em contato com a loja."
+            record = order[0]
+            tracking = f" Código de rastreio: {record['tracking_code']}." if record.get("tracking_code") else ""
+            delivery = f" Previsão de entrega: {record['estimated_delivery']}." if record.get("estimated_delivery") else ""
+            return f"O pedido {record['order_id']} está com status '{record['status']}'.{tracking}{delivery}"
+        if any(term in lower for term in ("clima", "tempo hoje", "notícia", "noticias", "filme", "música que não", "programar", "futebol")):
+            return "Posso ajudar apenas com produtos, preços, estoque, promoções, pedidos e políticas da Empório da Música."
         if any(word in lower for word in ("devolver", "devolução", "troca", "return")):
             return "Você pode solicitar uma devolução online em até 7 dias corridos após o recebimento, conforme as condições da loja."
         if "pix" in lower and ("desconto" in lower or "quanto" in lower):
