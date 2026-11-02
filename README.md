@@ -24,6 +24,9 @@ CSV files -> validated SQLite tables -> deterministic tools -> assistant
 PDF policy -> text extraction -> lightweight policy retrieval -> assistant
 Streamlit chat -> assistant -> Portuguese customer response
 ```
+## Demo video
+
+[Watch the Emporio Music AI Assistant demo](media/emporio-music-ai-assistant-demo.webm)
 
 ## Repository organization
 
