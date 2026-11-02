@@ -78,6 +78,10 @@ Copy `.env.example` to `.env` and provide `OPENAI_API_KEY` to enable the LLM res
 - `Qual é o status do pedido 1?`
 - `Qual é a previsão do tempo hoje?` (out-of-scope handling)
 
+## Use of coding assistants
+
+This project was developed with Codex as a coding assistant. The workflow used the assistant to inspect the provided CSV and PDF materials, propose the hybrid architecture, generate and revise Python implementation files, create tests, troubleshoot runtime behavior in VS Code, and improve the README and architecture diagrams. All generated code was reviewed through local execution in VS Code, Streamlit acceptance checks, and automated pytest tests. The customer-facing behavior and business rules were verified against the supplied data and store policies rather than accepted without testing.
+
 ## MVP limitations
 
 The local retriever is intentionally lightweight and does not require a vector database. A production deployment should add embeddings, authentication for order lookups, schema validation, audit logs, and a scheduled ingestion job with staging tables and reconciliation.
